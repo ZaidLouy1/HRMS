@@ -15,7 +15,7 @@ namespace HRMS.Controllers
             new Employee() {Id=1 ,FirstName ="Ahmad" , LastName = "Nasser" , Email = "Ahmad@123.com" , Position="HR" , BirthDate= new DateTime(1995,1,25) , PhoneNumber="+962799585653",IsActive=true,StartDate=new DateTime(2026,1,1), Salary=600 },
             new Employee() {Id=2 ,FirstName ="Zaid" , LastName = "Almasri" , Email = "zaid@123.com" , Position="Developer" , BirthDate= new DateTime(2001,3,28) , PhoneNumber="+962799585653",IsActive=true,StartDate=new DateTime(2026,1,1), Salary=500 },
             new Employee() {Id=3 ,FirstName ="Yousef" , LastName = "al Faris" , Email = "yousef@123.com" , Position="Manager" , BirthDate= new DateTime(1999,8,17) , PhoneNumber="+962799585653",IsActive=true,StartDate=new DateTime(2026,1,1), Salary=1000 },
-            //new Employee() {Id=4 ,FirstName ="Sara" , LastName = "karam" , Email = "sara@123.com" , Position="Developer" , BirthDate= new DateTime(2000,5,2) , PhoneNumber="+962799585653",IsActive=true,StartDate=new DateTime(2026,1,1), Salary=800 }
+            new Employee() {Id=4 ,FirstName ="Sara" , LastName = "karam" , Email = "sara@123.com" , Position="Developer" , BirthDate= new DateTime(2000,5,2) , PhoneNumber="+962799585653",IsActive=true,StartDate=new DateTime(2026,1,1), Salary=800 }
         };
 
 

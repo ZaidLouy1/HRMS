@@ -16,6 +16,10 @@ namespace HRMS.Controllers
             new Department() {Id = 3, Name="Development",Description="development Department",FloorNumber=1}
         };
 
+
+
+
+
         [HttpGet("GitByCriteria")]
 
         public IActionResult GitByCriteria(string ? name , int ? floorNumber) // name = Human Resources , floorNumber = 2
@@ -34,6 +38,8 @@ namespace HRMS.Controllers
             return Ok(data);
 
         }
+
+
 
 
 
@@ -60,6 +66,8 @@ namespace HRMS.Controllers
 
 
 
+
+
         [HttpPost]
         public IActionResult Add([FromBody] SaveDepartmentDto newDepartment)
         {
@@ -74,6 +82,8 @@ namespace HRMS.Controllers
             departments.Add(department);
             return Ok();
         }
+
+
 
 
 
@@ -93,6 +103,8 @@ namespace HRMS.Controllers
             
             return Ok();
         }
+
+
 
 
 

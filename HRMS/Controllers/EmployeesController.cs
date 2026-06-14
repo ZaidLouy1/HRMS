@@ -1,4 +1,5 @@
-﻿using HRMS.Dtos.Employees;
+﻿using HRMS.DbContexts;
+using HRMS.Dtos.Employees;
 using HRMS.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -19,13 +20,26 @@ namespace HRMS.Controllers
         };
 
 
+
+        // Dependancy Injection
+        public readonly HRMSContext _dbContext;
+        public EmployeesController(HRMSContext dbContext)
+        {
+            _dbContext = dbContext;
+        }
+
+         
+         
+
+
+
         //CRUD Operations : Create , Read , Update , Delete
         //Endpoints --> Methods
         [HttpGet("GetByCriteria")]
         public IActionResult GetByCriteria([FromQuery] string ? position) 
         {
             //Query Syntax
-            var data = from emp in employees
+            var data = from emp in _dbContext.Employees
                        where (position == null || emp.Position == position) // filteration  // Position == nul || one condition if true return true
                        orderby emp.Id descending
                        select new EmployeeDto // Dto : Data Transfer Object

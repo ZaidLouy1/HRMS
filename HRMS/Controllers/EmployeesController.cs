@@ -40,6 +40,8 @@ namespace HRMS.Controllers
         {
             //Query Syntax
             var data = from emp in _dbContext.Employees
+                       from dep in _dbContext.Departments.Where(x=>x.Id==emp.DepartmentId).DefaultIfEmpty()   //left join
+                       from man in _dbContext.Employees.Where(x=>x.Id==emp.ManagerId).DefaultIfEmpty()//self and left join
                        where (position == null || emp.Position == position) // filteration  // Position == nul || one condition if true return true
                        orderby emp.Id descending
                        select new EmployeeDto // Dto : Data Transfer Object
@@ -49,7 +51,11 @@ namespace HRMS.Controllers
                            Position = emp.Position,
                            BirthDate = emp.BirthDate,
                            StartDate = emp.StartDate,
-                           EndDate = emp.EndDate
+                           EndDate = emp.EndDate,
+                           DepartmentId = emp.DepartmentId,
+                           DepartmentName=dep.Name,
+                           ManagerId = emp.ManagerId,
+                           ManagerName=man.FirstName
                        };
 
             return Ok(data);
@@ -66,7 +72,7 @@ namespace HRMS.Controllers
         public IActionResult GetById(long id)
         {
             //var data = employees.FirstOrDefault(x => x.Id == id);
-            var data = employees.Select(x => new EmployeeDto
+            var data = _dbContext.Employees.Select(x => new EmployeeDto
             {
                 Id = x.Id,
                 Name = x.FirstName + "" + x.LastName,

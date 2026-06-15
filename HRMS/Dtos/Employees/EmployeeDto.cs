@@ -9,6 +9,7 @@
         public DateTime StartDate { get; set; }
         public DateTime ? EndDate { get; set; }
 
+
         public long ? DepartmentId {  get; set; }
         public string? DepartmentName {  get; set; }
         public long ? ManagerId {  get; set; }

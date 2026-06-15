@@ -22,5 +22,8 @@
 
         public DateTime? EndDate { get; set; }// end date in the company ( (?)=> it mean that it can be nullable ) // (optional)
         public decimal? Salary { get; set; } // optional
+
+        public long ? DepartmentId {  get; set; }
+        public long ? ManagerId {  get; set; }
     }
 }

@@ -1,4 +1,5 @@
-﻿using HRMS.Dtos.Departments;
+﻿using HRMS.DbContexts;
+using HRMS.Dtos.Departments;
 using HRMS.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -9,23 +10,27 @@ namespace HRMS.Controllers
     [ApiController]
     public class DepartmentsController : ControllerBase
     {
-        public static List<Department> departments = new List<Department>()
-        {
-            new Department() {Id = 1, Name="Human Resources",Description="HR Department",FloorNumber=1},
-            new Department() {Id = 2, Name="Finance",Description="Finance Department",FloorNumber=2},
-            new Department() {Id = 3, Name="Development",Description="development Department",FloorNumber=1}
-        };
+        
 
+
+        public readonly HRMSContext _dbcontext;
+        public DepartmentsController (HRMSContext dbcontext) 
+        {
+            _dbcontext = dbcontext;
+
+
+        }
 
 
 
 
         [HttpGet("GitByCriteria")]
 
-        public IActionResult GitByCriteria(string ? name , int ? floorNumber) // name = Human Resources , floorNumber = 2
+        public IActionResult GitByCriteria([FromQuery] SearchDepartmentDto searchDepartmentDto) // name = Human Resources , floorNumber = 2
         {
-            var data = from dep in departments
-                       where (name == null || dep.Name.ToUpper().Contains(name.ToUpper())) && (floorNumber == null || dep.FloorNumber == floorNumber) //.ToUpper() :if the user send the string lower case the system will reflect it to upper case to solve the upper and lower case, and contains :if the user write Dev only not Developer The system eill know the object
+            var data = from dep in _dbcontext.Departments
+                       where (searchDepartmentDto.name == null || dep.Name.ToUpper().Contains(searchDepartmentDto.name.ToUpper())) && //.ToUpper() :if the user send the string lower case the system will reflect it to upper case to solve the upper and lower case, and contains :if the user write Dev only not Developer The system eill know the object
+                       (searchDepartmentDto.FloorNumber == null || dep.FloorNumber == searchDepartmentDto.FloorNumber) 
                        orderby dep.Id descending
                        select new DepartmentDto
                        {
@@ -46,7 +51,7 @@ namespace HRMS.Controllers
         [HttpGet("{id}")]
         public IActionResult GitById(long id)
         {
-            var department = departments.Select(x => new DepartmentDto
+            var department = _dbcontext.Departments.Select(x => new DepartmentDto
             {
                 Id=x.Id,
                 Name=x.Name,
@@ -73,13 +78,14 @@ namespace HRMS.Controllers
         {
             var department = new Department
             {
-                Id = (departments.LastOrDefault()?.Id ?? 0) + 1,
+                Id = (_dbcontext.Departments.LastOrDefault()?.Id ?? 0) + 1,
                 Name = newDepartment.Name,
                 Description = newDepartment.Description,
                 FloorNumber = newDepartment.FloorNumber
             };
 
-            departments.Add(department);
+            _dbcontext.Departments.Add(department);
+            _dbcontext.SaveChanges();
             return Ok();
         }
 
@@ -91,7 +97,7 @@ namespace HRMS.Controllers
         [HttpPut]
         public IActionResult Update([FromBody] DepartmentDto updateDepartment)
         {
-            var department = departments.FirstOrDefault(x => x.Id == updateDepartment.Id);
+            var department = _dbcontext.Departments.FirstOrDefault(x => x.Id == updateDepartment.Id);
             if (department == null)
             {
                 return NotFound("Department Dose Not Exist");
@@ -100,6 +106,7 @@ namespace HRMS.Controllers
             department.Name = updateDepartment.Name;
             department.Description = updateDepartment.Description;
             department.FloorNumber = updateDepartment.FloorNumber;
+            _dbcontext.SaveChanges();
             
             return Ok();
         }
@@ -112,12 +119,13 @@ namespace HRMS.Controllers
         [HttpDelete("{id}")]
         public IActionResult Delete(long id)
         {
-            var department = departments.FirstOrDefault(x => x.Id == id);
+            var department = _dbcontext.Departments.FirstOrDefault(x => x.Id == id);
             if (department == null)
             {
                 return NotFound("department Not Found");
             }
-            departments.Remove(department);
+            _dbcontext.Departments.Remove(department);
+            _dbcontext.SaveChanges();
             return Ok();
         }
 

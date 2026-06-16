@@ -27,14 +27,16 @@ namespace HRMS.Controllers
         //CRUD Operations : Create , Read , Update , Delete
         //Endpoints --> Methods
         [HttpGet("GetByCriteria")]
-        public IActionResult GetByCriteria([FromQuery] string ? position , string ? name) 
+        public IActionResult GetByCriteria([FromQuery]SearchEmployeeDto searchEmployeeDto) 
         {
             //Query Syntax
             var data = from emp in _dbContext.Employees
                        from dep in _dbContext.Departments.Where(x=>x.Id==emp.DepartmentId).DefaultIfEmpty()   //left join
                        from man in _dbContext.Employees.Where(x=>x.Id==emp.ManagerId).DefaultIfEmpty()//self and left join
-                       where (position == null || emp.Position.Contains(position , StringComparison.OrdinalIgnoreCase)) && // filteration  // Position == nul || one condition if true return true
-                       (name == null || emp.FirstName.Contains(name,StringComparison.OrdinalIgnoreCase))// filteration
+                       //where (searchEmployeeDto.Position == null || emp.Position.Contains(searchEmployeeDto.Position, StringComparison.OrdinalIgnoreCase)) && // filteration  // Position == nul || one condition if true return true
+                       where (searchEmployeeDto.Position == null || emp.Position.ToUpper().Contains(searchEmployeeDto.Position.ToUpper())) && // filteration  // Position == nul || one condition if true return true
+                       //(searchEmployeeDto.Name == null || emp.FirstName.Contains(searchEmployeeDto.Name,StringComparison.OrdinalIgnoreCase))// filteration
+                       (searchEmployeeDto.Name == null || emp.FirstName.ToUpper().Contains(searchEmployeeDto.Name.ToUpper()))// filteration
                        orderby emp.Id descending
                        select new EmployeeDto // Dto : Data Transfer Object
                        {

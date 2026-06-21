@@ -13,6 +13,15 @@ namespace HRMS.Controllers
         
 
 
+
+
+
+
+
+
+
+
+
         public readonly HRMSContext _dbcontext;
         public DepartmentsController (HRMSContext dbcontext) 
         {
@@ -20,6 +29,15 @@ namespace HRMS.Controllers
 
 
         }
+
+
+
+
+
+
+
+
+
 
 
 
@@ -43,6 +61,14 @@ namespace HRMS.Controllers
             return Ok(data);
 
         }
+
+
+
+
+
+
+
+
 
 
 
@@ -73,6 +99,14 @@ namespace HRMS.Controllers
 
 
 
+
+
+
+
+
+
+
+
         [HttpPost]
         public IActionResult Add([FromBody] SaveDepartmentDto newDepartment)
         {
@@ -88,6 +122,16 @@ namespace HRMS.Controllers
             _dbcontext.SaveChanges();
             return Ok();
         }
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -110,6 +154,14 @@ namespace HRMS.Controllers
             
             return Ok();
         }
+
+
+
+
+
+
+
+
 
 
 

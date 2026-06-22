@@ -17,3 +17,4 @@ namespace HRMS.Models
         public ICollection <Employee> Employees { get; set; } //Many
     }
 }
+ 

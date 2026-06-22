@@ -66,7 +66,7 @@ namespace HRMS.Controllers
         [HttpGet("{id}")]
         public IActionResult GetById(long id)
         {
-            //var data = employees.FirstOrDefault(x => x.Id == id);
+
             var data = _dbContext.Employees.Select(x => new EmployeeDto
             {
                 Id = x.Id,
@@ -76,9 +76,9 @@ namespace HRMS.Controllers
                 StartDate = x.StartDate,
                 EndDate = x.EndDate,
                 DepartmentId = x.DepartmentId,
-                DepartmentName="", // waiting to learn more
+                DepartmentName=x.Department.Name , // Navigation prop (Department) I Need Only Name from Model (Object) Department
                 ManagerId = x.ManagerId,
-                ManagerName="" // waiting to learn more
+                ManagerName = x.Manager.FirstName // Navigation prop (Manager) I Need Only FirstName  Model (Object) Manager
             }).FirstOrDefault(x => x.Id == id);
 
             if (data == null)
